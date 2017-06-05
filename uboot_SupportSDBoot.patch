@@ -1,0 +1,45 @@
+diff --git a/drivers/clk/rockchip/clk_rk3328.c b/drivers/clk/rockchip/clk_rk3328.c
+index 0ff1e30..d6b6d4a 100644
+--- a/drivers/clk/rockchip/clk_rk3328.c
++++ b/drivers/clk/rockchip/clk_rk3328.c
+@@ -435,6 +435,7 @@ static ulong rk3328_mmc_set_clk(struct rk3328_cru *cru,
+ 	src_clk_div = GPLL_HZ / set_rate;
+ 
+ 	if (src_clk_div > 127) {
++		printf("rk3328_mmc_set_clk src_clk_div > 127,con_id:%d", con_id);
+ 		/* use 24MHz source for 400KHz clock */
+ 		src_clk_div = OSC_HZ / set_rate;
+ 		rk_clrsetreg(&cru->clksel_con[con_id],
+@@ -442,6 +443,7 @@ static ulong rk3328_mmc_set_clk(struct rk3328_cru *cru,
+ 			     CLK_EMMC_PLL_SEL_24M << CLK_EMMC_PLL_SHIFT |
+ 			     (src_clk_div - 1) << CLK_EMMC_DIV_CON_SHIFT);
+ 	} else {
++		printf("rk3328_mmc_set_clk src_clk_div <= 127,con_id:%d", con_id);
+ 		rk_clrsetreg(&cru->clksel_con[con_id],
+ 			     CLK_EMMC_PLL_MASK | CLK_EMMC_DIV_CON_MASK,
+ 			     CLK_EMMC_PLL_SEL_GPLL << CLK_EMMC_PLL_SHIFT |
+diff --git a/drivers/mmc/dw_mmc.c b/drivers/mmc/dw_mmc.c
+index 700f764..03bf6d2 100644
+--- a/drivers/mmc/dw_mmc.c
++++ b/drivers/mmc/dw_mmc.c
+@@ -432,7 +432,7 @@ static int dwmci_init(struct mmc *mmc)
+ 	if (host->board_init)
+ 		host->board_init(host);
+ 
+-	dwmci_writel(host, DWMCI_PWREN, 1);
++	dwmci_writel(host, DWMCI_PWREN, 0);
+ 
+ 	if (!dwmci_wait_reset(host, DWMCI_RESET_ALL)) {
+ 		debug("%s[%d] Fail-reset!!\n", __func__, __LINE__);
+diff --git a/include/configs/rk3328_common.h b/include/configs/rk3328_common.h
+index b0dcd48..fc12b61 100644
+--- a/include/configs/rk3328_common.h
++++ b/include/configs/rk3328_common.h
+@@ -16,6 +16,7 @@
+ #define CONFIG_SYS_CBSIZE		1024
+ #define CONFIG_SKIP_LOWLEVEL_INIT
+ 
++#define CONFIG_MMC_TRACE
+ #define CONFIG_SYS_NS16550_MEM32
+ 
+ #define CONFIG_SYS_TEXT_BASE		0x00200000

@@ -439,6 +439,7 @@ static ulong rk3328_mmc_set_clk(struct rk3328_cru *cru,
 	src_clk_div = GPLL_HZ / set_rate;
 
 	if (src_clk_div > 127) {
+		printf("rk3328_mmc_set_clk src_clk_div > 127,con_id:%d", con_id);
 		/* use 24MHz source for 400KHz clock */
 		src_clk_div = OSC_HZ / set_rate;
 		rk_clrsetreg(&cru->clksel_con[con_id],
@@ -446,6 +447,7 @@ static ulong rk3328_mmc_set_clk(struct rk3328_cru *cru,
 			     CLK_EMMC_PLL_SEL_24M << CLK_EMMC_PLL_SHIFT |
 			     (src_clk_div - 1) << CLK_EMMC_DIV_CON_SHIFT);
 	} else {
+		printf("rk3328_mmc_set_clk src_clk_div <= 127,con_id:%d", con_id);
 		rk_clrsetreg(&cru->clksel_con[con_id],
 			     CLK_EMMC_PLL_MASK | CLK_EMMC_DIV_CON_MASK,
 			     CLK_EMMC_PLL_SEL_GPLL << CLK_EMMC_PLL_SHIFT |
