@@ -436,11 +436,6 @@ struct rk322x_base_params {
 #define ZDEN_SHIFT			28
 
 /* DDLGCR */
-#define SBIAS_BYPASS			BIT(23)
-
-/* MCFG */
-#define MDDR_LPDDR2_CLK_STOP_IDLE_SHIFT	24
-#define PD_IDLE_SHIFT			8
 #define MDDR_EN				(2 << 22)
 #define LPDDR2_EN			(3 << 22)
 #define LPDDR3_EN			(1 << 22)
@@ -461,17 +456,10 @@ struct rk322x_base_params {
 #define BURSTLENGTH_SHIFT		20
 
 /* POWCTL */
-#define POWER_UP_START			BIT(0)
 
 /* POWSTAT */
 #define POWER_UP_DONE			BIT(0)
 
-/* MCMD */
-enum {
-	DESELECT_CMD			= 0,
-	PREA_CMD,
-	REF_CMD,
-	MRS_CMD,
 	ZQCS_CMD,
 	ZQCL_CMD,
 	RSTL_CMD,
