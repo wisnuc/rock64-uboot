@@ -8,8 +8,8 @@
 #include "rk3328.dtsi"
 
 / {
-	model = "Rock64";
-	compatible = "rockchip,rock64", "evb-rk3288,evb-rk3288", "rockchip,rk3288";
+	model = "Rockchip RK3328 Rock64";
+	compatible = "rockchip,rk3328-rock64", "rockchip,rk3328";
 
 	chosen {
 		stdout-path = &uart2;
