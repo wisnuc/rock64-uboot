@@ -76,6 +76,7 @@ int board_init(void)
 		     MACPHY_CFG_ENABLE_MASK,
 		     0 << MACPHY_CFG_ENABLE_SHIFT);
 
+	rockchip_timer_init();
 	return 0;
 }
 
