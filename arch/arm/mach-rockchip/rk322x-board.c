@@ -81,6 +81,7 @@ int board_init(void)
 		     0 << MACPHY_CFG_ENABLE_SHIFT);
 
 	rockchip_timer_init();
+
 	return 0;
 }
 
