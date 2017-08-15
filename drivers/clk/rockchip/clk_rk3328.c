@@ -11,6 +11,7 @@
 #include <syscon.h>
 #include <asm/arch/clock.h>
 #include <asm/arch/cru_rk3328.h>
+#include <asm/arch/grf_rk3328.h>
 #include <asm/arch/hardware.h>
 #include <asm/io.h>
 #include <dm/lists.h>
@@ -478,6 +479,30 @@ static ulong rk3328_pwm_set_clk(struct rk3328_cru *cru, uint hz)
 	return DIV_TO_RATE(GPLL_HZ, div);
 }
 
+#if CONFIG_IS_ENABLED(GMAC_ROCKCHIP)
+static ulong rk3328_gmac_set_clk(struct rk3328_cru *cru,
+				 ulong clk_id, ulong set_rate)
+{
+	struct rk3328_grf_regs *grf;
+	grf = syscon_get_first_range(ROCKCHIP_SYSCON_GRF);
+
+	switch (clk_id) {
+	case SCLK_MAC2IO:
+		rk_clrsetreg(&grf->mac_con[1], BIT(10), BIT(10));
+		break;
+
+	case SCLK_MAC2IO_EXT:
+		rk_clrsetreg(&grf->soc_con[4], BIT(14), BIT(14));
+		break;
+
+	default:
+		return -EINVAL;
+	}
+
+	return set_rate;
+}
+#endif
+
 static ulong rk3328_clk_get_rate(struct clk *clk)
 {
 	struct rk3328_clk_priv *priv = dev_get_priv(clk->dev);
@@ -531,6 +556,12 @@ static ulong rk3328_clk_set_rate(struct clk *clk, ulong rate)
 	case SCLK_PWM:
 		ret = rk3328_pwm_set_clk(priv->cru, rate);
 		break;
+#if CONFIG_IS_ENABLED(GMAC_ROCKCHIP)
+	case SCLK_MAC2IO:
+	case SCLK_MAC2IO_EXT:
+		ret = rk3328_gmac_set_clk(priv->cru, clk->id, rate);
+		break;
+#endif
 	default:
 		return -ENOENT;
 	}
