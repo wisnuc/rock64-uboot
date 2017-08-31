@@ -51,6 +51,7 @@
 #include <config_distro_bootcmd.h>
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
+	"fdtfile=" FDTFILE \
 	BOOTENV
 
 #endif
