@@ -47,6 +47,7 @@
 
 #define CONFIG_EXTRA_ENV_SETTINGS \
 	ENV_MEM_LAYOUT_SETTINGS	\
+	"fdtfile=" FDTFILE \
 	BOOTENV
 
 #endif
