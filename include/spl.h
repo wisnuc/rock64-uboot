@@ -283,9 +283,10 @@ int spl_mmc_load_image(struct spl_image_info *spl_image,
 		       struct spl_boot_device *bootdev);
 
 /**
- * spl_invoke_atf - boot using an ARM trusted firmware image
+ * spl_bl31_entry - entry function for ATF bl31
+ * @entry_addr - entry address of bl31 text
  */
-void spl_invoke_atf(struct spl_image_info *spl_image);
+void spl_bl31_entry(void *entry_addr);
 
 /**
  * spl_optee_entry - entry function for optee
