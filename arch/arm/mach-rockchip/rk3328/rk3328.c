@@ -24,6 +24,9 @@ DECLARE_GLOBAL_DATA_PTR;
 #define RK3328_CPUID_OFF  0x7
 #define RK3328_CPUID_LEN  0x10
 
+#define GRF_SOC_CON4		0xff100410
+#define CRU_MISC_CON		0xff440084
+
 static struct mm_region rk3328_mem_map[] = {
 	{
 		.virt = 0x0UL,
@@ -60,6 +63,14 @@ int dram_init_banksize(void)
 int arch_cpu_init(void)
 {
 	/* We do some SoC one time setting here. */
+
+	/* Enable force to jtag, jtag_tclk/tms iomuxed with sdmmc0_d2/d3 */
+	rk_setreg(GRF_SOC_CON4, 1 << 12);
+
+	/* HDMI phy clock source select HDMIPHY clock out */
+	rk_clrreg(CRU_MISC_CON, 1 << 13);
+
+	/* TODO: ECO version */
 
 	return 0;
 }
