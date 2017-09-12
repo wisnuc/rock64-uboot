@@ -140,6 +140,8 @@ void board_init_f(ulong dummy)
 	/*  Emmc clock generator: disable the clock multipilier */
 	rk_clrreg(GRF_EMMCCORE_CON11, 0x0ff);
 
+	secure_timer_init();
+
 	ret = spl_early_init();
 	if (ret) {
 		debug("spl_early_init() failed: %d\n", ret);
@@ -162,8 +164,6 @@ void board_init_f(ulong dummy)
 	/*  eMMC clock generator: disable the clock multipilier */
 	grf = syscon_get_first_range(ROCKCHIP_SYSCON_GRF);
 	rk_clrreg(&grf->emmccore_con[11], 0x0ff);
-
-	secure_timer_init();
 
 	ret = uclass_get_device(UCLASS_PINCTRL, 0, &pinctrl);
 	if (ret) {
