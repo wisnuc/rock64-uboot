@@ -1,0 +1,12 @@
+--- drivers/clk/rockchip/clk_rk3328.c
++++ drivers/clk/rockchip/clk_rk3328.c
+@@ -561,6 +591,9 @@ static ulong rk3328_clk_set_rate(struct clk *clk, ulong rate)
+ 	case SCLK_PWM:
+ 		ret = rk3328_pwm_set_clk(priv->cru, rate);
+ 		break;
++	case SCLK_SARADC:
++		ret = rk3328_saradc_set_clk(priv->cru, rate);
++		break;
+ 	default:
+ 		return -ENOENT;
+ 	}
