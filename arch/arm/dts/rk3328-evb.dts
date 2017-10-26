@@ -62,6 +62,7 @@
 };
 
 &uart2 {
+	u-boot,dm-pre-reloc;
 	status = "okay";
 };
 
@@ -78,6 +79,7 @@
 };
 
 &emmc {
+	u-boot,dm-pre-reloc;
 	bus-width = <8>;
 	cap-mmc-highspeed;
 	supports-emmc;
