@@ -5,6 +5,12 @@
  */
 
 #include <common.h>
+#include <debug_uart.h>
+#include <dm.h>
+#include <ram.h>
+#include <spl.h>
+#include <asm/gpio.h>
+#include <asm/io.h>
 #include <asm/arch/bootrom.h>
 #include <asm/arch/clock.h>
 #include <asm/arch/grf_rk3399.h>
@@ -31,20 +37,26 @@ static const char * const boot_devices[BROM_LAST_BOOTSOURCE + 1] = {
 
 const char *board_spl_was_booted_from(void)
 {
-	u32  bootdevice_brom_id = readl(RK3399_BROM_BOOTSOURCE_ID_ADDR);
-	const char *bootdevice_ofpath = NULL;
+	u32 bootdevice_brom_id = readl(RK3399_BROM_BOOTSOURCE_ID_ADDR);
+	switch (bootdevice_brom_id) {
+		case BROM_BOOTSOURCE_EMMC:
+			printf("booted from eMMC\n");
+			return BOOT_DEVICE_MMC1;
 
-	if (bootdevice_brom_id < ARRAY_SIZE(boot_devices))
-		bootdevice_ofpath = boot_devices[bootdevice_brom_id];
+		case BROM_BOOTSOURCE_SD:
+			printf("booted from SD\n");
+			return BOOT_DEVICE_MMC2;
 
-	if (bootdevice_ofpath)
-		debug("%s: brom_bootdevice_id %x maps to '%s'\n",
-		      __func__, bootdevice_brom_id, bootdevice_ofpath);
-	else
-		debug("%s: failed to resolve brom_bootdevice_id %x\n",
-		      __func__, bootdevice_brom_id);
+		case BROM_BOOTSOURCE_SPINOR:
+			printf("booted from SPI flash\n");
+			return BOOT_DEVICE_SPI;
 
-	return bootdevice_ofpath;
+		case BROM_BOOTSOURCE_USB:
+			printf("booted from USB\n");
+			return BOOT_DEVICE_MMC1;
+	}
+
+	return BOOT_DEVICE_BOOTROM;
 }
 
 u32 spl_boot_device(void)
