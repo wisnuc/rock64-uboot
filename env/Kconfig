@@ -451,6 +451,12 @@ config ENV_SIZE
 	help
 	  Size of the environment storage area
 
+config ENV_SECT_SIZE
+	hex
+	default 0x1000
+	help
+	  Sector size of the environment storage area
+
 endif
 
 endmenu

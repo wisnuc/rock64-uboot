@@ -58,6 +58,10 @@ extern const char * const boot_devices[BROM_LAST_BOOTSOURCE + 1];
 /**
  * Locations of the boot-device identifier in SRAM
  */
+/**
+ * Locations of the boot-device identifier in SRAM
+ */
+#define RK3328_BROM_BOOTSOURCE_ID_ADDR   0xff090010
 #define RK3399_BROM_BOOTSOURCE_ID_ADDR   0xff8c0010
 
 #endif

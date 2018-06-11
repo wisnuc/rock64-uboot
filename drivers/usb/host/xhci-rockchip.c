@@ -35,6 +35,30 @@ struct rockchip_xhci {
 	struct dwc3 *dwc3_reg;
 };
 
+static const char *const speed_names[] = {
+	[DWC3_DCFG_SUPERSPEED] = "UNKNOWN",
+	[DWC3_DCFG_LOWSPEED] = "low-speed",
+	[DWC3_DCFG_FULLSPEED2] = "full-speed",
+	[DWC3_DCFG_HIGHSPEED] = "high-speed",
+	[DWC3_DCFG_SUPERSPEED] = "super-speed"
+};
+
+u32 xhci_usb_get_maximum_speed(struct udevice *dev)
+{
+	const char *maximum_speed;
+	int i;
+
+	maximum_speed = dev_read_string(dev, "maximum-speed");
+	if (maximum_speed == NULL)
+		return DWC3_DCFG_SUPERSPEED;
+
+	for (i = 0; i < ARRAY_SIZE(speed_names); i++)
+		if (strcmp(maximum_speed, speed_names[i]) == 0)
+			return i;
+
+	return DWC3_DCFG_SUPERSPEED;
+}
+
 static int xhci_usb_ofdata_to_platdata(struct udevice *dev)
 {
 	struct rockchip_xhci_platdata *plat = dev_get_platdata(dev);
@@ -108,6 +132,12 @@ static void rockchip_dwc3_phy_setup(struct dwc3 *dwc3_reg,
 		reg &= ~DWC3_GUSB2PHYCFG_SUSPHY;
 
 	writel(reg, &dwc3_reg->g_usb2phycfg[0]);
+
+	/* Set dwc3 device config register */
+	reg = readl(&dwc3_reg->d_cfg);
+	reg &= ~DWC3_DCFG_SPEED_MASK;
+	reg |= xhci_usb_get_maximum_speed(dev);
+	writel(reg, &dwc3_reg->d_cfg);
 }
 
 static int rockchip_xhci_core_init(struct rockchip_xhci *rkxhci,
@@ -115,16 +145,16 @@ static int rockchip_xhci_core_init(struct rockchip_xhci *rkxhci,
 {
 	int ret;
 
+	rockchip_dwc3_phy_setup(rkxhci->dwc3_reg, dev);
+
+	/* We are hard-coding DWC3 core to Host Mode */
+	dwc3_set_mode(rkxhci->dwc3_reg, DWC3_GCTL_PRTCAP_HOST);
+
 	ret = dwc3_core_init(rkxhci->dwc3_reg);
 	if (ret) {
 		pr_err("failed to initialize core\n");
 		return ret;
 	}
-
-	rockchip_dwc3_phy_setup(rkxhci->dwc3_reg, dev);
-
-	/* We are hard-coding DWC3 core to Host Mode */
-	dwc3_set_mode(rkxhci->dwc3_reg, DWC3_GCTL_PRTCAP_HOST);
 
 	return 0;
 }

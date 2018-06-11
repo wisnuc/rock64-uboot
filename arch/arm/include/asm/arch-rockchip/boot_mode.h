@@ -23,4 +23,6 @@ int setup_boot_mode(void);
 void devtype_num_envset(void);
 #endif
 
+int setup_boot_mode(void);
+
 #endif

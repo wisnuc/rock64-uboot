@@ -132,4 +132,29 @@ struct rk3328_sgrf_regs {
 check_member(rk3328_sgrf_regs, hdcp_key_access_mask, 0x2a0);
 
 
+#ifndef GPIO_BIAS_MASK
+/* GPIO Bias settings */
+enum GPIO_BIAS {
+	GPIO_BIAS_2MA = 0,
+	GPIO_BIAS_4MA,
+	GPIO_BIAS_8MA,
+	GPIO_BIAS_12MA,
+};
+
+#define GPIO_BIAS_MASK	0x3
+#define GPIO_BIAS_SHIFT(x)  ((x) * 2)
+#endif
+
+#ifndef GPIO_PULL_MASK
+enum GPIO_PU_PD {
+	GPIO_PULL_NORMAL = 0,
+	GPIO_PULL_UP,
+	GPIO_PULL_DOWN,
+	GPIO_PULL_REPEAT,
+};
+
+#define GPIO_PULL_MASK	0x3
+#define GPIO_PULL_SHIFT(x)  ((x) * 2)
+#endif
+
 #endif	/* __SOC_ROCKCHIP_RK3328_GRF_H__ */

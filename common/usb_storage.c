@@ -101,6 +101,17 @@ struct us_data {
 	unsigned short	max_xfer_blk;		/* maximum transfer blocks */
 };
 
+#ifdef CONFIG_USB_EHCI_HCD
+/*
+ * The U-Boot EHCI driver can handle any transfer length as long as there is
+ * enough free heap space left, but the SCSI READ(10) and WRITE(10) commands are
+ * limited to 65535 blocks.
+ */
+#define USB_MAX_XFER_BLK	512
+#else
+#define USB_MAX_XFER_BLK	20
+#endif
+
 #ifndef CONFIG_BLK
 static struct us_data usb_stor[USB_MAX_STOR_DEV];
 #endif

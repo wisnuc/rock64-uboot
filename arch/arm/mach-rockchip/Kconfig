@@ -159,6 +159,7 @@ config ROCKCHIP_RK3328
 	imply SPL_SERIAL_SUPPORT
 	imply TPL_SERIAL_SUPPORT
 	imply SPL_SEPARATE_BSS
+	select ENABLE_ARM_SOC_BOOT0_HOOK
 	select DEBUG_UART_BOARD_INIT
 	select ARM_SMCCC
 	help
@@ -232,6 +233,7 @@ config ROCKCHIP_RK3399
 	select SPL_SEPARATE_BSS
 	select SPL_SERIAL_SUPPORT
 	select SPL_DRIVERS_MISC_SUPPORT
+	select ENABLE_ARM_SOC_BOOT0_HOOK
 	select DEBUG_UART_BOARD_INIT
 	select GICV3
 	select BOARD_LATE_INIT
@@ -287,6 +289,7 @@ config ROCKCHIP_BOOT_MODE_REG
 	default 0xff738200 if ROCKCHIP_RK3368
 	default 0xff320300 if ROCKCHIP_RK3399
 	default 0x10300580 if ROCKCHIP_RV1108
+	default 0xff1005c8 if ROCKCHIP_RK3328
 	default 0
 	help
 	  The Soc will enter to different boot mode(defined in asm/arch/boot_mode.h)
