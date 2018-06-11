@@ -16,7 +16,7 @@
 
 /* #define CONFIG_MTD_DEVICE */
 
-#define CONFIG_SPL_FRAMEWORK
+#define CONFIG_SPL_FRAMEWORK 1
 #if defined(CONFIG_SPL_SPI_SUPPORT)
 #define CONFIG_SPL_SPI_LOAD
 #endif
@@ -46,7 +46,7 @@
 #define CONFIG_NR_DRAM_BANKS		1
 #define SDRAM_MAX_SIZE			0xff000000
 
-#define CONFIG_SPI_FLASH
+#define CONFIG_SPI_FLASH 1
 #define CONFIG_SF_DEFAULT_SPEED 20000000
 
 #ifndef CONFIG_SPL_BUILD
@@ -70,8 +70,6 @@
 /* rockchip ohci host driver */
 #define CONFIG_USB_OHCI_NEW
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	1
-
-#define CONFIG_USB_FUNCTION_MASS_STORAGE
 
 #define CONFIG_PREBOOT
 

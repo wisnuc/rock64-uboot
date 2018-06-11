@@ -49,7 +49,9 @@ obj-$(CONFIG_PCA9551_LED) += pca9551_led.o
 obj-$(CONFIG_FSL_DEVICE_DISABLE) += fsl_devdis.o
 obj-$(CONFIG_WINBOND_W83627) += winbond_w83627.o
 obj-$(CONFIG_QFW) += qfw.o
+ifndef CONFIG_SPL_BUILD
 obj-$(CONFIG_ROCKCHIP_EFUSE) += rockchip-efuse.o
+endif
 obj-$(CONFIG_STM32_RCC) += stm32_rcc.o
 obj-$(CONFIG_STM32MP_FUSE) += stm32mp_fuse.o
 obj-$(CONFIG_SYS_DPAA_QBMAN) += fsl_portals.o
