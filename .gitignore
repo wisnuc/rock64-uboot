@@ -86,3 +86,5 @@ GTAGS
 *.orig
 *~
 \#*#
+
+idbloader.img
