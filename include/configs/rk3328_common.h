@@ -60,7 +60,7 @@
 
 #define CONFIG_SPI_FLASH 1
 #define CONFIG_SPI
-#define CONFIG_SF_DEFAULT_SPEED 20000000
+#define CONFIG_SF_DEFAULT_SPEED 25000000
 
 #ifndef CONFIG_SPL_BUILD
 
@@ -87,17 +87,20 @@
 #define CONFIG_USB_OHCI_NEW
 #define CONFIG_SYS_USB_OHCI_MAX_ROOT_PORTS	1
 
-#define CONFIG_USB_FUNCTION_MASS_STORAGE
+/* this seems to be usb gadget config
+#define CONFIG_USB_FUNCTION_MASS_STORAGE */
 
 #define CONFIG_PREBOOT
 
-/* enable usb config for usb ether */
-#define CONFIG_USB_HOST_ETHER
+/* enable usb config for usb ether 
+#define CONFIG_USB_HOST_ETHER */
 
+/*
 #define CONFIG_USB_ETHER_ASIX
 #define CONFIG_USB_ETHER_ASIX88179
 #define CONFIG_USB_ETHER_MCS7830
 #define CONFIG_USB_ETHER_SMSC95XX
 #define CONFIG_USB_ETHER_RTL8152
+*/
 
 #endif

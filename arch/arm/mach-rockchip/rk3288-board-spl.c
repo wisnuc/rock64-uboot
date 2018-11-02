@@ -27,6 +27,7 @@
 #include <dm/util.h>
 #include <power/regulator.h>
 #include <power/rk8xx_pmic.h>
+#include <spi.h>
 
 DECLARE_GLOBAL_DATA_PTR;
 
@@ -281,6 +282,8 @@ void spl_board_init(void)
 {
 	struct udevice *pinctrl;
 	int ret;
+
+  spi_init(); 
 
 	ret = setup_led();
 
