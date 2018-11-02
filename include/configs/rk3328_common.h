@@ -50,7 +50,7 @@
 #define CONFIG_FS_EXT4
 
 /* RAW SD card / eMMC locations. */
-#define CONFIG_SYS_SPI_U_BOOT_OFFS	(CONFIG_SYS_MMCSD_RAW_MODE_U_BOOT_SECTOR * 512)
+#define CONFIG_SYS_SPI_U_BOOT_OFFS	(0x200 * 512)
 
 /* FAT sd card locations. */
 #define CONFIG_SYS_MMCSD_FS_BOOT_PARTITION	1
