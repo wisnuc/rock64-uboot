@@ -249,15 +249,8 @@ int usb_init(void)
 
 	uclass_foreach_dev(bus, uc) {
 		/* init low_level USB */
-		printf("USB%d:", count);
+		printf("USB%d:   ", count);
 		count++;
-
-    /* pretend ENODEV for non usb3 port controller */
-    if (count != 4) {
-      controllers_initialized++;
-      continue;
-    }
-
 		ret = device_probe(bus);
 		if (ret == -ENODEV) {	/* No such device. */
 			puts("Port not available.\n");
