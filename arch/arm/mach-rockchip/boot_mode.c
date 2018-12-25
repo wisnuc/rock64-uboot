@@ -31,27 +31,7 @@ void set_back_to_bootrom_dnl_flag(void)
 
 __weak int rockchip_dnl_key_pressed(void)
 {
-	const void *blob = gd->fdt_blob;
-	unsigned int val;
-	int channel = 1;
-	int node;
-	u32 chns[2];
-
-	node = fdt_node_offset_by_compatible(blob, 0, "adc-keys");
-	if (node >= 0) {
-	       if (!fdtdec_get_int_array(blob, node, "io-channels", chns, 2))
-		       channel = chns[1];
-	}
-
-	if (adc_channel_single_shot("saradc", channel, &val)) {
-		printf("%s adc_channel_single_shot fail!\n", __func__);
-		return false;
-	}
-
-	if ((val >= KEY_DOWN_MIN_VAL) && (val <= KEY_DOWN_MAX_VAL))
-		return true;
-	else
-		return false;
+  return false;
 }
 
 void rockchip_blink_power(int times)
@@ -97,7 +77,7 @@ end:
 void rockchip_dnl_mode_check(void)
 {
 	if (!rockchip_dnl_key_pressed()) {
-		return 0;
+		return;
 	}
 
 	switch(rockchip_dnl_mode(4)) {
