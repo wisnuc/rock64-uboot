@@ -13,7 +13,7 @@ fi
 make CROSS_COMPILE=aarch64-linux-gnu- BL31=rkbin/rk3328_bl31_v1.39.bin -j 8
 
 # generate u-boot.itb
-make DEBUG=1 CROSS_COMPILE=aarch64-linux-gnu- BL31=rkbin/rk3328_bl31_v1.39.bin -j 8 u-boot.itb
+make CROSS_COMPILE=aarch64-linux-gnu- BL31=rkbin/rk3328_bl31_v1.39.bin -j 8 u-boot.itb
 
 # generate image with ddr initializer
 tools/mkimage -n rk3328 -T rksd -d rkbin/rk3328_ddr_786MHz_v1.12.bin idbloader.img
